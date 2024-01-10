@@ -6,11 +6,14 @@ import ProjectsSidebar from "./Components/ProjectsSidebar";
 import SelectedProject from "./Components/SelectedProject";
 
 function App() {
+  // --> managing project state...
   const [projectState, setProjectState] = useState({
     selectedProjectId: undefined,
     projects: [],
     tasks: [],
   });
+
+  //  --> adding tasks to the selected project...
   const handleAddTask = (text) => {
     setProjectState((prevState) => {
       const taskId = Math.random();
@@ -25,6 +28,8 @@ function App() {
       };
     });
   };
+
+  // --> handling deleting tasks...
   const handleDeleteTask = (id) => {
     setProjectState((prevState) => {
       return {

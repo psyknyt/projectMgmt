@@ -53,7 +53,7 @@ export default function ProjectsSidebar({
 
       {/* displaying the list of projects for small devices*/}
       {toggleView && projects.length > 0 && (
-        <div className="sm:hidden z-10000 bg-stone-600  rounded-b-md  max-h-20">
+        <div className="sm:hidden z-10000 bg-stone-600  rounded-b-md  max-h-20 overflow-auto">
           <ul className="flex flex-col rounded-md">
             {projects.map((project) => {
               let cssClasses =
