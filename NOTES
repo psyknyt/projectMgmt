@@ -1,0 +1,53 @@
+<--- On Day-1 || 30/11/2023 --->
+
+    || I created ||
+
+    >: side bar and NewProject component along with noProject component managed these two with state management.  ||
+    >: Tried adding validation with the help of lifting state from handleSave i.e. NewProject component to the  Input component to show the invalidity of the values enterd.
+        till now I have created an #alert for any input value that is null(== "").
+
+<--- On Day-2 || 1/12/2023 --->
+
+:> I added the functionality of adding new projects in our state.
+
+:> Implemented Create portal in which we used the element with ("modal-doot") id in our index.html
+and used backdrop tailwind class to add a backdrop.
+
+:> The portal displays the model and whenever the user inputs are empty the modal appears,
+the model appearnce happens with the help of ref which is being passed to the Modal
+the userImerativeHadndle adds another function to the ref passed and that fucntion
+is called whenever the input is wrong.
+
+<--- On Day-3 || 2/12/2023 --->
+
+:> Clearing my doubts on using Ref's and userImerativeHadndle
+
+:> Created
+
+<--- On Day-4 || 3/12/2023 --->
+
+:> I missed my leetcode daily contest today, I set my alarm at 19:50 instead of 7:50 considering 24 hour format.
+also I'm not doing my daily questions for two days...
+I just want to be consistent at it.
+
+:> Added SelectedProject component which takes the selected project and then displays its, information.
+
+// --> Learning how to add material UI icons in REACT.
+import Icon from '@material-ui/core/Icon';
+
+ <!-- function MyComponent() {
+  return (
+    <div>
+      <Icon>star</Icon>
+    </div>
+  );
+} -->
+
+Ain't no rakt vichaar...
+
+<--- On Day-5 || 4/12/2023 --->
+
+// --> Just solved an question on leetcode and that's it that too with the help of solutions
+figured out the approach but got confused in forming an result string by comparinig two strings.
+
+// --> key learnings:: stoi() --> function converts string value to integer and when string is empty it throws an exception
