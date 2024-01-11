@@ -4,7 +4,7 @@ import Modal from "./Modal";
 import { useRef } from "react";
 import { useState } from "react";
 
-export default function NewProject({ onAddNew }) {
+export default function NewProject({ onAddNew, onCancel }) {
   const modal = useRef();
   const title = useRef();
   const description = useRef();
@@ -33,6 +33,9 @@ export default function NewProject({ onAddNew }) {
       dueDate: enteredDueDate,
     });
   };
+  const handleCancel = () => {
+    onCancel();
+  };
   return (
     <>
       <Modal ref={modal} btnCaption="Close">
@@ -49,7 +52,10 @@ export default function NewProject({ onAddNew }) {
       <div className="h-2/3 sm:w-[35rem] mt-16 ">
         <menu className="flex items-center justify-end gap-4 my-4">
           <li>
-            <button className="text-stone-800 hover:text-stone-950">
+            <button
+              className="text-stone-800 hover:text-stone-950"
+              onClick={handleCancel}
+            >
               Cancel
             </button>
           </li>

@@ -74,6 +74,16 @@ function App() {
     });
   }
 
+  // --> Handling cancel Adding project in the NewProject component...
+  function handleCanceAddProject() {
+    setProjectState((prevState) => {
+      return {
+        ...prevState,
+        selectedProjectId: undefined,
+      };
+    });
+  }
+
   //  --> handling delete project
   const handleDeleteProject = () => {
     setProjectState((prevState) => {
@@ -106,7 +116,12 @@ function App() {
   if (projectState.selectedProjectId === null) {
     /* --> if project id is null,
          then we are about to add new project */
-    content = <NewProject onAddNew={handleAddProject} />;
+    content = (
+      <NewProject
+        onAddNew={handleAddProject}
+        onCancel={handleCanceAddProject}
+      />
+    );
   } else if (projectState.selectedProjectId === undefined) {
     /* --> if project id is undefined then we render 
        the no project component*/
