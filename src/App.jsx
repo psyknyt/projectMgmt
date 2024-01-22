@@ -1,141 +1,40 @@
-import React, { useState } from "react";
+import React from "react";
+import { useState, useContext, useEffect } from "react";
 
+import ProjectsSidebar from "./Components/ProjectsSidebar";
 import NewProject from "./Components/NewProject";
 import NoProjectSelected from "./Components/NoProjectSelected";
-import ProjectsSidebar from "./Components/ProjectsSidebar";
 import SelectedProject from "./Components/SelectedProject";
 
+import { ProjectContext } from "./Components/Context";
+
 function App() {
-  // --> managing project state...
-  const [projectState, setProjectState] = useState({
-    selectedProjectId: undefined,
-    projects: [],
-    tasks: [],
-  });
+  const ctx = useContext(ProjectContext);
 
-  //  --> adding tasks to the selected project...
-  const handleAddTask = (text) => {
-    setProjectState((prevState) => {
-      const taskId = Math.random();
-      const newTask = {
-        text: text,
-        projectId: prevState.selectedProjectId,
-        id: taskId,
-      };
-      return {
-        ...prevState,
-        tasks: [...prevState.tasks, newTask],
-      };
-    });
-  };
+  const [content, setContent] = useState(null);
 
-  // --> handling deleting tasks...
-  const handleDeleteTask = (id) => {
-    setProjectState((prevState) => {
-      return {
-        ...prevState,
-        tasks: prevState.tasks.filter((task) => task.id !== id),
-      };
-    });
-  };
-  // handling condition in which new Project is about to be added
-  const handleStartAddProject = () => {
-    setProjectState((prevState) => {
-      return {
-        ...projectState,
-        selectedProjectId: null,
-      };
-    });
-  };
+  // learned appliying useEffect...
+  // but here I'm not using the cleanup function and I would love to learn about that too...
 
-  // --> Handle SelectProject
-  const handleSelect = (id) => {
-    setProjectState((prevState) => {
-      return {
-        ...prevState,
-        selectedProjectId: id,
-      };
-    });
-  };
+  useEffect(() => {
+    // this is our base case
+    setContent(<SelectedProject />);
 
-  // --> Adding new Project
-  function handleAddProject(projectData) {
-    setProjectState((prevState) => {
-      const projectId = Math.random();
-      const newProject = {
-        ...projectData,
-        id: projectId,
-      };
-      return {
-        ...prevState,
-        selectedProjectId: undefined,
-        projects: [...prevState.projects, newProject],
-      };
-    });
-  }
-
-  // --> Handling cancel Adding project in the NewProject component...
-  function handleCanceAddProject() {
-    setProjectState((prevState) => {
-      return {
-        ...prevState,
-        selectedProjectId: undefined,
-      };
-    });
-  }
-
-  //  --> handling delete project
-  const handleDeleteProject = () => {
-    setProjectState((prevState) => {
-      return {
-        ...prevState,
-        selectedProjectId: undefined,
-        projects: prevState.projects.filter(
-          (project) => project.id !== prevState.selectedProjectId
-        ),
-      };
-    });
-  };
-
-  // --> finding the slectedProject and then rendering the required content inside it...
-  const selectedProject = projectState.projects.find(
-    (project) => project.id === projectState.selectedProjectId
-  );
-
-  // --:> content is initialized to SelectedProject and selected project is sent as a prop to it.
-  let content = (
-    <SelectedProject
-      project={selectedProject}
-      onDelete={handleDeleteProject}
-      onAddTask={handleAddTask}
-      onDeleteTask={handleDeleteTask}
-      tasks={projectState.tasks}
-    />
-  );
-
-  if (projectState.selectedProjectId === null) {
-    /* --> if project id is null,
-         then we are about to add new project */
-    content = (
-      <NewProject
-        onAddNew={handleAddProject}
-        onCancel={handleCanceAddProject}
-      />
-    );
-  } else if (projectState.selectedProjectId === undefined) {
-    /* --> if project id is undefined then we render 
-       the no project component*/
-    content = <NoProjectSelected onStartAddProject={handleStartAddProject} />;
-  }
+    if (ctx.projectNew === null) {
+      // this is the case in which projects are been added
+      setContent(<NewProject />);
+    } else if (
+      (ctx.selectedProjectId === undefined || ctx.selectedProjectId === null) &&
+      ctx.projectNew === undefined
+    ) {
+      // this is the case of deleting a project or when we start our project
+      setContent(<NoProjectSelected />);
+    }
+  }, [ctx.selectedProjectId, ctx.projects, ctx.projectNew, ctx.tasks]);
 
   return (
     <main className="flex flex-col m-8 h-screen my-8 sm:flex-row gap-8">
-      <ProjectsSidebar
-        onStartAddProject={handleStartAddProject}
-        projects={projectState.projects}
-        onSelectedProject={handleSelect}
-        selectedProjectId={projectState.selectedProjectId}
-      />
+      <ProjectsSidebar />
       {content}
     </main>
   );

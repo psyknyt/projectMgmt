@@ -1,14 +1,17 @@
+import { ProjectContext } from "./Context";
 import Input from "./Input";
 import Modal from "./Modal";
 
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import { useState } from "react";
 
-export default function NewProject({ onAddNew, onCancel }) {
+export default function NewProject() {
   const modal = useRef();
   const title = useRef();
   const description = useRef();
   const dueDate = useRef();
+
+  const ctx = useContext(ProjectContext);
 
   const handleSave = () => {
     const enteredTitle = title.current.value;
@@ -27,14 +30,19 @@ export default function NewProject({ onAddNew, onCancel }) {
     }
 
     // --> Adding new project details to our managed state in App component
-    onAddNew({
+    // onAddNew();
+    ctx.addProject({
       title: enteredTitle,
       description: enteredDesc,
       dueDate: enteredDueDate,
     });
+    title.current.value = "";
+    description.current.value = "";
+    dueDate.current.value = "";
   };
+
   const handleCancel = () => {
-    onCancel();
+    ctx.cancelAddingProject();
   };
   return (
     <>

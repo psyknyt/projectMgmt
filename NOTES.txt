@@ -51,3 +51,12 @@ Ain't no rakt vichaar...
 figured out the approach but got confused in forming an result string by comparinig two strings.
 
 // --> key learnings:: stoi() --> function converts string value to integer and when string is empty it throws an exception
+
+
+/<---  22/1/2024 --->
+
+// I applied the context api in this react app now I think adding backend to this project will be my job 
+   I learned about context api in this project and applied it as well without watching any tutorials all by myself...
+   It was a great experience cos I have no mentor and I just did all debugging by myself
+   learned about react browser debugging tools, which helped me to identify the bug in my app which kept me wounding for days...
+    

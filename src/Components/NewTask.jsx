@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ProjectContext } from "./Context";
 
-const NewTask = ({ onAdd, onDelete }) => {
+const NewTask = () => {
+  const ctx = useContext(ProjectContext);
   const [enteredTask, setEnteredTask] = useState("");
 
   const handleChange = (event) => {
@@ -11,13 +13,13 @@ const NewTask = ({ onAdd, onDelete }) => {
     if (enteredTask.trim() === "") {
       return;
     }
-    onAdd(enteredTask);
+    ctx.handleAddTask(enteredTask);
     setEnteredTask("");
   };
   return (
     <div className="flex items-center">
       <input
-        className="bg-stone-200 rounded-sm border-blue-500 w-64 px-2 py-1 mx-2"
+        className="bg-stone-200 rounded-sm border-blue-500 w-64 pr-2 py-1 mr-2"
         type="text"
         onChange={handleChange}
         value={enteredTask}

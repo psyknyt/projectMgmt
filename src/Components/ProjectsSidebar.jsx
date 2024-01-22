@@ -1,15 +1,12 @@
-import { useState } from "react";
-
+import { useState, useContext } from "react";
+import { ProjectContext } from "./Context";
 import Button from "./Button";
+import { unstable_renderSubtreeIntoContainer } from "react-dom";
 
-export default function ProjectsSidebar({
-  onStartAddProject,
-  projects,
-  onSelectedProject,
-  selectedProjectId,
-}) {
+export default function ProjectsSidebar() {
   const [displayUl, setDisplayUl] = useState(false);
   const [toggleView, setToggleView] = useState(false);
+
   const setProjectDisplay = () => {
     setDisplayUl(!displayUl);
   };
@@ -18,6 +15,18 @@ export default function ProjectsSidebar({
     setToggleView(!toggleView);
   };
 
+  const ctx = useContext(ProjectContext);
+  const { projects, selectedProjectId, projectNew } =
+    useContext(ProjectContext);
+
+  const onStartAddingProject = () => {
+    ctx.handleStartAddingProject(null);
+  };
+
+  const selectingProject = (id) => {
+    ctx.handleSelect(id);
+    ctx.handleStartAddingProject(undefined);
+  };
   return (
     <aside className="h-1/3 w-full px-8 flex flex-col sm:block py-8 sm:py-16  bg-stone-900 text-stone-50 rounded-xl sm:w-1/3 sm:h-screen md:w-72 ">
       {/* mobile display of projeacts on screen */}
@@ -30,8 +39,9 @@ export default function ProjectsSidebar({
          and when he selects a particular project its info is displayed*/}
 
         {projects.length === 0
-          ? "No projects as of now...."
+          ? "No projects as of now..."
           : "YOUR PROJECTS..."}
+
         {toggleView ? (
           <>
             <span
@@ -58,15 +68,17 @@ export default function ProjectsSidebar({
             {projects.map((project) => {
               let cssClasses =
                 "sm:w-full text-left px-1 py-0.5 hover:text-stone-200 hover:bg-stone-500";
+
               if (project.id === selectedProjectId) {
                 cssClasses += " bg-stone-800 text-stone-200";
               } else {
                 cssClasses += " text-stone-400";
               }
+
               //  here I'm handling two events in one function and then handling that event
               const handleBothClick = () => {
                 handleToggleProjectView();
-                onSelectedProject(project.id);
+                selectingProject(project.id);
               };
 
               return (
@@ -83,21 +95,21 @@ export default function ProjectsSidebar({
         </div>
       )}
       <div className="relative top-4 sm:hidden">
-        <Button onClick={onStartAddProject}> +Add Button</Button>
+        <Button onClick={onStartAddingProject}> +Add Button</Button>
       </div>
 
       <h1 className="hidden sm:block uppercase font-bold text-lg text-white mb-4">
         Your Projects...
       </h1>
       <div className="hidden sm:block relative top-4 sm:mb-4">
-        <Button onClick={onStartAddProject}> +Add Button</Button>
+        <Button onClick={onStartAddingProject}> +Add Button</Button>
       </div>
       {/* displaying projects for medium screens and normal screen */}
       {
         <ul className="mt-8 hidden sm:block">
           {projects.map((project) => {
             let cssClasses =
-              "sm:w-full uppercase text-left px-2 py-1 rounded-md my-1  hover:text-stone-200 hover:bg-stone-800";
+              "sm:w-full uppercase text-left px-2 py-1 rounded-md my-1 hover:text-stone-200 hover:bg-stone-800";
             if (project.id === selectedProjectId) {
               cssClasses += " bg-stone-800 text-stone-200";
             } else {
@@ -108,7 +120,7 @@ export default function ProjectsSidebar({
               <li key={project.id}>
                 <button
                   className={cssClasses}
-                  onClick={() => onSelectedProject(project.id)}
+                  onClick={() => selectingProject(project.id)}
                 >
                   {project.title}
                 </button>

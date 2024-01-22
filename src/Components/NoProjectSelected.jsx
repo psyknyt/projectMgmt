@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import noProjectImg from "../assets/no-projects.png";
 
 import Button from "./Button";
+import { ProjectContext } from "./Context";
 
-export default function NoProjectSelected({ onStartAddProject }) {
+export default function NoProjectSelected({}) {
+  const { handleStartAddingProject } = useContext(ProjectContext);
+
+  const onStartAddingProject = () => {
+    handleStartAddingProject(null);
+  };
   return (
     <div className="h-2/3 w-full mt-24 text-center sm:w-2/3 sm:h-screen">
       <img
@@ -18,7 +24,7 @@ export default function NoProjectSelected({ onStartAddProject }) {
         Please select a project from the list on the left.
       </p>
       <p>
-        <Button onClick={onStartAddProject}>Create new project.</Button>
+        <Button onClick={onStartAddingProject}>Create new project.</Button>
       </p>
     </div>
   );
